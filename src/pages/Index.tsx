@@ -5,7 +5,7 @@ import { WorkoutTable } from "@/components/WorkoutTable";
 import { StatsBar } from "@/components/StatsBar";
 
 const Index = () => {
-  const { entries, addEntry, removeEntry } = useWorkouts();
+  const { entries, addEntry, removeEntry, updateEntry } = useWorkouts();
 
   return (
     <div className="relative min-h-screen bg-background">
@@ -47,7 +47,7 @@ const Index = () => {
           <WorkoutForm onAdd={addEntry} />
         </div>
 
-        <WorkoutTable entries={entries} onRemove={removeEntry} />
+        <WorkoutTable entries={entries} onRemove={removeEntry} onUpdate={updateEntry} />
 
         <footer className="mt-12 text-center text-xs text-muted-foreground">
           Daten werden lokal in deinem Browser gespeichert.

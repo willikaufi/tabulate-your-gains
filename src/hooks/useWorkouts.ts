@@ -30,7 +30,16 @@ export function useWorkouts() {
     setEntries((prev) => prev.filter((e) => e.id !== id));
   };
 
+  const updateEntry = (
+    id: string,
+    updates: Omit<WorkoutEntry, "id" | "createdAt">,
+  ) => {
+    setEntries((prev) =>
+      prev.map((e) => (e.id === id ? { ...e, ...updates } : e)),
+    );
+  };
+
   const clearAll = () => setEntries([]);
 
-  return { entries, addEntry, removeEntry, clearAll };
+  return { entries, addEntry, removeEntry, updateEntry, clearAll };
 }

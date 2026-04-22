@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
-import { Search, Trash2, Dumbbell } from "lucide-react";
+import { Search, Trash2, Dumbbell, Pencil } from "lucide-react";
+import { EditWorkoutDialog } from "@/components/EditWorkoutDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -23,11 +24,13 @@ import { CATEGORIES, type WorkoutEntry } from "@/types/workout";
 interface Props {
   entries: WorkoutEntry[];
   onRemove: (id: string) => void;
+  onUpdate: (id: string, updates: Omit<WorkoutEntry, "id" | "createdAt">) => void;
 }
 
-export function WorkoutTable({ entries, onRemove }: Props) {
+export function WorkoutTable({ entries, onRemove, onUpdate }: Props) {
   const [query, setQuery] = useState("");
   const [filterCategory, setFilterCategory] = useState<string>("all");
+  const [editing, setEditing] = useState<WorkoutEntry | null>(null);
 
   const filtered = useMemo(() => {
     return entries.filter((e) => {
@@ -136,16 +139,28 @@ export function WorkoutTable({ entries, onRemove }: Props) {
                     {e.notes ?? "—"}
                   </TableCell>
                   <TableCell>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => onRemove(e.id)}
-                      className="opacity-0 transition-opacity group-hover:opacity-100 hover:text-destructive"
-                      aria-label="Eintrag löschen"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                    <div className="flex items-center justify-end gap-1 opacity-60 transition-opacity group-hover:opacity-100">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setEditing(e)}
+                        className="hover:text-primary"
+                        aria-label="Eintrag bearbeiten"
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => onRemove(e.id)}
+                        className="hover:text-destructive"
+                        aria-label="Eintrag löschen"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
@@ -153,6 +168,13 @@ export function WorkoutTable({ entries, onRemove }: Props) {
           </Table>
         </div>
       )}
+
+      <EditWorkoutDialog
+        entry={editing}
+        open={editing !== null}
+        onOpenChange={(open) => !open && setEditing(null)}
+        onSave={onUpdate}
+      />
     </div>
   );
 }
