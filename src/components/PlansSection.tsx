@@ -186,7 +186,7 @@ function PlanCard({
           <li key={ex.id} className="flex justify-between gap-2">
             <span className="truncate">{ex.exercise}</span>
             <span className="shrink-0 tabular-nums">
-              {ex.sets}×{ex.reps} · {ex.weight}kg
+              {ex.sets}×{ex.reps} · {ex.weight}kg · {ex.restMin}min
             </span>
           </li>
         ))}
