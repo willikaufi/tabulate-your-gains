@@ -48,6 +48,7 @@ export function PlansSection({ onApply }: Props) {
       sets: ex.sets,
       reps: ex.reps,
       weight: ex.weight,
+      restMin: ex.restMin ?? 0,
       notes: `Aus Plan: ${plan.name}`,
     }));
     onApply(entries);
