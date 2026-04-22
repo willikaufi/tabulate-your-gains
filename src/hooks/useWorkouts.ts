@@ -26,6 +26,16 @@ export function useWorkouts() {
     setEntries((prev) => [newEntry, ...prev]);
   };
 
+  const addEntries = (newEntries: Omit<WorkoutEntry, "id" | "createdAt">[]) => {
+    const now = Date.now();
+    const built: WorkoutEntry[] = newEntries.map((e, i) => ({
+      ...e,
+      id: crypto.randomUUID(),
+      createdAt: now + i,
+    }));
+    setEntries((prev) => [...built, ...prev]);
+  };
+
   const removeEntry = (id: string) => {
     setEntries((prev) => prev.filter((e) => e.id !== id));
   };
