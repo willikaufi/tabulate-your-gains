@@ -10,6 +10,23 @@ export interface WorkoutEntry {
   createdAt: number;
 }
 
+export interface PlanExercise {
+  id: string;
+  exercise: string;
+  category: string;
+  sets: number;
+  reps: number;
+  weight: number;
+}
+
+export interface WorkoutPlan {
+  id: string;
+  name: string;
+  description?: string;
+  exercises: PlanExercise[];
+  createdAt: number;
+}
+
 export const CATEGORIES = [
   "Brust",
   "Rücken",

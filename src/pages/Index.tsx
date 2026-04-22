@@ -3,9 +3,11 @@ import { useWorkouts } from "@/hooks/useWorkouts";
 import { WorkoutForm } from "@/components/WorkoutForm";
 import { WorkoutTable } from "@/components/WorkoutTable";
 import { StatsBar } from "@/components/StatsBar";
+import { PlansSection } from "@/components/PlansSection";
 
 const Index = () => {
-  const { entries, addEntry, removeEntry, updateEntry } = useWorkouts();
+  const { entries, addEntry, addEntries, removeEntry, updateEntry } =
+    useWorkouts();
 
   return (
     <div className="relative min-h-screen bg-background">
@@ -34,8 +36,8 @@ const Index = () => {
             <span className="text-gradient">Werde stärker.</span>
           </h2>
           <p className="mt-3 text-muted-foreground">
-            Erfasse Übungen, Sätze, Wiederholungen und Gewicht. Behalte deinen
-            Fortschritt im Blick — alles übersichtlich in einer Tabelle.
+            Erfasse Übungen, Sätze, Wiederholungen und Gewicht. Erstelle eigene
+            Trainingspläne und füge ganze Workouts mit einem Klick ein.
           </p>
         </section>
 
@@ -44,10 +46,18 @@ const Index = () => {
         </div>
 
         <div className="mb-8">
+          <PlansSection onApply={addEntries} />
+        </div>
+
+        <div className="mb-8">
           <WorkoutForm onAdd={addEntry} />
         </div>
 
-        <WorkoutTable entries={entries} onRemove={removeEntry} onUpdate={updateEntry} />
+        <WorkoutTable
+          entries={entries}
+          onRemove={removeEntry}
+          onUpdate={updateEntry}
+        />
 
         <footer className="mt-12 text-center text-xs text-muted-foreground">
           Daten werden lokal in deinem Browser gespeichert.
