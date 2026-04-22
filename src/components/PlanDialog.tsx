@@ -41,6 +41,7 @@ const emptyExercise = (): PlanExercise => ({
   sets: 3,
   reps: 10,
   weight: 0,
+  restMin: 2,
 });
 
 export function PlanDialog({
@@ -213,41 +214,68 @@ export function PlanDialog({
                         </SelectContent>
                       </Select>
                     </div>
-                    <Input
-                      type="number"
-                      min={0}
-                      placeholder="Sätze"
-                      value={ex.sets}
-                      onChange={(e) =>
-                        updateExercise(ex.id, "sets", Number(e.target.value) || 0)
-                      }
-                      className="sm:col-span-2"
-                    />
-                    <Input
-                      type="number"
-                      min={0}
-                      placeholder="Wdh."
-                      value={ex.reps}
-                      onChange={(e) =>
-                        updateExercise(ex.id, "reps", Number(e.target.value) || 0)
-                      }
-                      className="sm:col-span-2"
-                    />
-                    <Input
-                      type="number"
-                      min={0}
-                      step="0.5"
-                      placeholder="kg"
-                      value={ex.weight}
-                      onChange={(e) =>
-                        updateExercise(
-                          ex.id,
-                          "weight",
-                          Number(e.target.value) || 0,
-                        )
-                      }
-                      className="sm:col-span-2"
-                    />
+                    <div className="space-y-1 sm:col-span-2">
+                      <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                        Sätze
+                      </Label>
+                      <Input
+                        type="number"
+                        min={0}
+                        value={ex.sets}
+                        onChange={(e) =>
+                          updateExercise(ex.id, "sets", Number(e.target.value) || 0)
+                        }
+                      />
+                    </div>
+                    <div className="space-y-1 sm:col-span-2">
+                      <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                        Wiederholungen
+                      </Label>
+                      <Input
+                        type="number"
+                        min={0}
+                        value={ex.reps}
+                        onChange={(e) =>
+                          updateExercise(ex.id, "reps", Number(e.target.value) || 0)
+                        }
+                      />
+                    </div>
+                    <div className="space-y-1 sm:col-span-2">
+                      <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                        Gewicht (kg)
+                      </Label>
+                      <Input
+                        type="number"
+                        min={0}
+                        step="0.5"
+                        value={ex.weight}
+                        onChange={(e) =>
+                          updateExercise(
+                            ex.id,
+                            "weight",
+                            Number(e.target.value) || 0,
+                          )
+                        }
+                      />
+                    </div>
+                    <div className="space-y-1 sm:col-span-2 sm:col-start-1">
+                      <Label className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                        Satzpause (min)
+                      </Label>
+                      <Input
+                        type="number"
+                        min={0}
+                        step="0.5"
+                        value={ex.restMin}
+                        onChange={(e) =>
+                          updateExercise(
+                            ex.id,
+                            "restMin",
+                            Number(e.target.value) || 0,
+                          )
+                        }
+                      />
+                    </div>
                   </div>
                 </div>
               ))}
