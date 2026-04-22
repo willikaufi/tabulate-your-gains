@@ -101,8 +101,9 @@ export function WorkoutTable({ entries, onRemove, onUpdate }: Props) {
                 <TableHead>Übung</TableHead>
                 <TableHead>Kategorie</TableHead>
                 <TableHead className="text-right">Sätze</TableHead>
-                <TableHead className="text-right">Wdh.</TableHead>
+                <TableHead className="text-right">Wiederholungen</TableHead>
                 <TableHead className="text-right">Gewicht</TableHead>
+                <TableHead className="text-right">Satzpause</TableHead>
                 <TableHead className="text-right">Volumen</TableHead>
                 <TableHead>Notizen</TableHead>
                 <TableHead className="w-12"></TableHead>
@@ -131,6 +132,9 @@ export function WorkoutTable({ entries, onRemove, onUpdate }: Props) {
                   </TableCell>
                   <TableCell className="text-right tabular-nums">
                     {e.weight} kg
+                  </TableCell>
+                  <TableCell className="text-right tabular-nums text-muted-foreground">
+                    {e.restMin ?? 0} min
                   </TableCell>
                   <TableCell className="text-right tabular-nums font-semibold text-primary">
                     {(e.sets * e.reps * e.weight).toLocaleString("de-DE")} kg

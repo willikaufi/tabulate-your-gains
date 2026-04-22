@@ -26,6 +26,7 @@ export function WorkoutForm({ onAdd }: Props) {
   const [sets, setSets] = useState("3");
   const [reps, setReps] = useState("10");
   const [weight, setWeight] = useState("0");
+  const [restMin, setRestMin] = useState("2");
   const [notes, setNotes] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -41,6 +42,7 @@ export function WorkoutForm({ onAdd }: Props) {
       sets: Number(sets) || 0,
       reps: Number(reps) || 0,
       weight: Number(weight) || 0,
+      restMin: Number(restMin) || 0,
       notes: notes.trim() || undefined,
     });
     toast.success("Eintrag gespeichert", {
@@ -127,7 +129,19 @@ export function WorkoutForm({ onAdd }: Props) {
           />
         </div>
 
-        <div className="space-y-2 md:col-span-2 lg:col-span-2">
+        <div className="space-y-2">
+          <Label htmlFor="rest">Satzpause (min)</Label>
+          <Input
+            id="rest"
+            type="number"
+            min={0}
+            step="0.5"
+            value={restMin}
+            onChange={(e) => setRestMin(e.target.value)}
+          />
+        </div>
+
+        <div className="space-y-2 md:col-span-2 lg:col-span-3">
           <Label htmlFor="notes">Notizen (optional)</Label>
           <Textarea
             id="notes"

@@ -35,6 +35,7 @@ export function EditWorkoutDialog({ entry, open, onOpenChange, onSave }: Props) 
   const [sets, setSets] = useState("0");
   const [reps, setReps] = useState("0");
   const [weight, setWeight] = useState("0");
+  const [restMin, setRestMin] = useState("0");
   const [notes, setNotes] = useState("");
 
   useEffect(() => {
@@ -45,6 +46,7 @@ export function EditWorkoutDialog({ entry, open, onOpenChange, onSave }: Props) 
       setSets(String(entry.sets));
       setReps(String(entry.reps));
       setWeight(String(entry.weight));
+      setRestMin(String(entry.restMin ?? 0));
       setNotes(entry.notes ?? "");
     }
   }, [entry]);
@@ -63,6 +65,7 @@ export function EditWorkoutDialog({ entry, open, onOpenChange, onSave }: Props) 
       sets: Number(sets) || 0,
       reps: Number(reps) || 0,
       weight: Number(weight) || 0,
+      restMin: Number(restMin) || 0,
       notes: notes.trim() || undefined,
     });
     toast.success("Eintrag aktualisiert");
@@ -135,7 +138,7 @@ export function EditWorkoutDialog({ entry, open, onOpenChange, onSave }: Props) 
                 onChange={(e) => setReps(e.target.value)}
               />
             </div>
-            <div className="space-y-2 sm:col-span-2">
+            <div className="space-y-2">
               <Label htmlFor="edit-weight">Gewicht (kg)</Label>
               <Input
                 id="edit-weight"
@@ -144,6 +147,17 @@ export function EditWorkoutDialog({ entry, open, onOpenChange, onSave }: Props) 
                 step="0.5"
                 value={weight}
                 onChange={(e) => setWeight(e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="edit-rest">Satzpause (min)</Label>
+              <Input
+                id="edit-rest"
+                type="number"
+                min={0}
+                step="0.5"
+                value={restMin}
+                onChange={(e) => setRestMin(e.target.value)}
               />
             </div>
             <div className="space-y-2 sm:col-span-2">

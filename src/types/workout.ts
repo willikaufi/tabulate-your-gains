@@ -6,6 +6,7 @@ export interface WorkoutEntry {
   sets: number;
   reps: number;
   weight: number; // in kg
+  restMin: number; // Satzpause in Minuten
   notes?: string;
   createdAt: number;
 }
@@ -17,6 +18,7 @@ export interface PlanExercise {
   sets: number;
   reps: number;
   weight: number;
+  restMin: number;
 }
 
 export interface WorkoutPlan {
