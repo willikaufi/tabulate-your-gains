@@ -51,5 +51,12 @@ export function useWorkouts() {
 
   const clearAll = () => setEntries([]);
 
-  return { entries, addEntry, removeEntry, updateEntry, clearAll };
+  return {
+    entries,
+    addEntry,
+    addEntries,
+    removeEntry,
+    updateEntry,
+    clearAll,
+  };
 }
