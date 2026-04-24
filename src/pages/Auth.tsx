@@ -35,7 +35,10 @@ const Auth = () => {
       return;
     }
     setBusy(true);
-    const { error } = await supabase.auth.signInWithPassword(parsed.data);
+    const { error } = await supabase.auth.signInWithPassword({
+      email: parsed.data.email,
+      password: parsed.data.password,
+    });
     setBusy(false);
     if (error) {
       toast.error("Anmeldung fehlgeschlagen", { description: error.message });
@@ -54,7 +57,8 @@ const Auth = () => {
     }
     setBusy(true);
     const { error } = await supabase.auth.signUp({
-      ...parsed.data,
+      email: parsed.data.email,
+      password: parsed.data.password,
       options: { emailRedirectTo: `${window.location.origin}/` },
     });
     setBusy(false);
