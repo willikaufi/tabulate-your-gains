@@ -31,8 +31,10 @@ interface Props {
 
 export function PlansSection({ onApply }: Props) {
   const { plans, addPlan, updatePlan, removePlan } = usePlans();
+  const { user } = useAuth();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingPlan, setEditingPlan] = useState<WorkoutPlan | null>(null);
+  const [sharingPlan, setSharingPlan] = useState<WorkoutPlan | null>(null);
 
   const openCreate = () => {
     setEditingPlan(null);
