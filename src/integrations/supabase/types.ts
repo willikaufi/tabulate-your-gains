@@ -14,7 +14,75 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      plans: {
+        Row: {
+          created_at: string
+          description: string | null
+          exercises: Json
+          id: string
+          name: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          exercises?: Json
+          id?: string
+          name: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          exercises?: Json
+          id?: string
+          name?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      workouts: {
+        Row: {
+          category: string
+          created_at: string
+          date: string
+          exercise: string
+          id: string
+          notes: string | null
+          reps: number
+          rest_min: number
+          sets: number
+          user_id: string
+          weight: number
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          date: string
+          exercise: string
+          id?: string
+          notes?: string | null
+          reps: number
+          rest_min?: number
+          sets: number
+          user_id: string
+          weight?: number
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          date?: string
+          exercise?: string
+          id?: string
+          notes?: string | null
+          reps?: number
+          rest_min?: number
+          sets?: number
+          user_id?: string
+          weight?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
