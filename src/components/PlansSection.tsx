@@ -143,12 +143,16 @@ export function PlansSection({ onApply }: Props) {
 
 function PlanCard({
   plan,
+  canShare,
   onEdit,
+  onShare,
   onRemove,
   onApply,
 }: {
   plan: WorkoutPlan;
+  canShare: boolean;
   onEdit: () => void;
+  onShare: () => void;
   onRemove: () => void;
   onApply: (date: string) => void;
 }) {
@@ -169,6 +173,18 @@ function PlanCard({
           )}
         </div>
         <div className="flex shrink-0 items-center gap-1">
+          {canShare && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="h-7 w-7 hover:text-primary"
+              onClick={onShare}
+              aria-label="Plan teilen"
+            >
+              <Share2 className="h-3.5 w-3.5" />
+            </Button>
+          )}
           <Button
             type="button"
             variant="ghost"
