@@ -7,6 +7,7 @@ import { WorkoutForm } from "@/components/WorkoutForm";
 import { WorkoutTable } from "@/components/WorkoutTable";
 import { StatsBar } from "@/components/StatsBar";
 import { PlansSection } from "@/components/PlansSection";
+import { FriendsSection } from "@/components/FriendsSection";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
@@ -86,6 +87,12 @@ const Index = () => {
         <div className="mb-8">
           <PlansSection onApply={addEntries} />
         </div>
+
+        {user && (
+          <div className="mb-8">
+            <FriendsSection onAddSessionEntries={addEntries} />
+          </div>
+        )}
 
         <div className="mb-8">
           <WorkoutForm onAdd={addEntry} />

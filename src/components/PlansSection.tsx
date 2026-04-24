@@ -3,6 +3,7 @@ import {
   ClipboardList,
   Pencil,
   Plus,
+  Share2,
   Trash2,
   Zap,
   Calendar as CalendarIcon,
@@ -17,8 +18,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { PlanDialog } from "@/components/PlanDialog";
+import { ShareDialog } from "@/components/ShareDialog";
+import { useAuth } from "@/hooks/useAuth";
 import { usePlans } from "@/hooks/usePlans";
 import type { WorkoutEntry, WorkoutPlan } from "@/types/workout";
+import type { SharedPlanPayload } from "@/types/social";
 import { toast } from "sonner";
 
 interface Props {
@@ -27,8 +31,10 @@ interface Props {
 
 export function PlansSection({ onApply }: Props) {
   const { plans, addPlan, updatePlan, removePlan } = usePlans();
+  const { user } = useAuth();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingPlan, setEditingPlan] = useState<WorkoutPlan | null>(null);
+  const [sharingPlan, setSharingPlan] = useState<WorkoutPlan | null>(null);
 
   const openCreate = () => {
     setEditingPlan(null);
@@ -95,7 +101,9 @@ export function PlansSection({ onApply }: Props) {
             <PlanCard
               key={plan.id}
               plan={plan}
+              canShare={!!user}
               onEdit={() => openEdit(plan)}
+              onShare={() => setSharingPlan(plan)}
               onRemove={() => {
                 removePlan(plan.id);
                 toast.success("Plan gelöscht");
@@ -113,18 +121,38 @@ export function PlansSection({ onApply }: Props) {
         onCreate={addPlan}
         onUpdate={updatePlan}
       />
+
+      <ShareDialog
+        open={sharingPlan !== null}
+        onOpenChange={(open) => !open && setSharingPlan(null)}
+        kind="plan"
+        title={sharingPlan?.name ?? ""}
+        payload={
+          sharingPlan
+            ? ({
+                name: sharingPlan.name,
+                description: sharingPlan.description,
+                exercises: sharingPlan.exercises,
+              } satisfies SharedPlanPayload)
+            : null
+        }
+      />
     </div>
   );
 }
 
 function PlanCard({
   plan,
+  canShare,
   onEdit,
+  onShare,
   onRemove,
   onApply,
 }: {
   plan: WorkoutPlan;
+  canShare: boolean;
   onEdit: () => void;
+  onShare: () => void;
   onRemove: () => void;
   onApply: (date: string) => void;
 }) {
@@ -145,6 +173,18 @@ function PlanCard({
           )}
         </div>
         <div className="flex shrink-0 items-center gap-1">
+          {canShare && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="h-7 w-7 hover:text-primary"
+              onClick={onShare}
+              aria-label="Plan teilen"
+            >
+              <Share2 className="h-3.5 w-3.5" />
+            </Button>
+          )}
           <Button
             type="button"
             variant="ghost"
