@@ -88,6 +88,12 @@ const Index = () => {
           <PlansSection onApply={addEntries} />
         </div>
 
+        {user && (
+          <div className="mb-8">
+            <FriendsSection onAddSessionEntries={addEntries} />
+          </div>
+        )}
+
         <div className="mb-8">
           <WorkoutForm onAdd={addEntry} />
         </div>
