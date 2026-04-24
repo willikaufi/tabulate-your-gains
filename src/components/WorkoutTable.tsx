@@ -167,6 +167,19 @@ export function WorkoutTable({ entries, onRemove, onUpdate }: Props) {
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center justify-end gap-1 opacity-60 transition-opacity group-hover:opacity-100">
+                      {user && (
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => setSharingDate(e.date)}
+                          className="hover:text-primary"
+                          aria-label="Session dieses Tages teilen"
+                          title="Session dieses Tages teilen"
+                        >
+                          <Share2 className="h-4 w-4" />
+                        </Button>
+                      )}
                       <Button
                         type="button"
                         variant="ghost"
@@ -201,6 +214,18 @@ export function WorkoutTable({ entries, onRemove, onUpdate }: Props) {
         open={editing !== null}
         onOpenChange={(open) => !open && setEditing(null)}
         onSave={onUpdate}
+      />
+
+      <ShareDialog
+        open={sharingDate !== null}
+        onOpenChange={(open) => !open && setSharingDate(null)}
+        kind="session"
+        title={
+          sharingDate
+            ? `Session vom ${formatDate(sharingDate)}`
+            : ""
+        }
+        payload={sharePayload}
       />
     </div>
   );
