@@ -3,6 +3,7 @@ import {
   ClipboardList,
   Pencil,
   Plus,
+  Share2,
   Trash2,
   Zap,
   Calendar as CalendarIcon,
@@ -17,8 +18,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { PlanDialog } from "@/components/PlanDialog";
+import { ShareDialog } from "@/components/ShareDialog";
+import { useAuth } from "@/hooks/useAuth";
 import { usePlans } from "@/hooks/usePlans";
 import type { WorkoutEntry, WorkoutPlan } from "@/types/workout";
+import type { SharedPlanPayload } from "@/types/social";
 import { toast } from "sonner";
 
 interface Props {
