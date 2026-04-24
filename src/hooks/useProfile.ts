@@ -49,7 +49,7 @@ export function useProfile() {
   const updateProfile = useCallback(
     async (updates: { username?: string; displayName?: string }) => {
       if (!user) return { error: "not authenticated" as const };
-      const payload: Record<string, string | null> = {};
+      const payload: { username?: string; display_name?: string | null } = {};
       if (updates.username !== undefined) payload.username = updates.username;
       if (updates.displayName !== undefined)
         payload.display_name = updates.displayName || null;
