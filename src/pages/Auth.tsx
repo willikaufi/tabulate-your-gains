@@ -12,9 +12,9 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 const credSchema = z.object({
-  email: z.string().trim().email("Ungültige E-Mail-Adresse").max(255),
+  email: z.string().trim().min(1).email("Ungültige E-Mail-Adresse").max(255),
   password: z.string().min(6, "Mindestens 6 Zeichen").max(72),
-});
+}).required();
 
 const Auth = () => {
   const navigate = useNavigate();
