@@ -101,7 +101,9 @@ export function PlansSection({ onApply }: Props) {
             <PlanCard
               key={plan.id}
               plan={plan}
+              canShare={!!user}
               onEdit={() => openEdit(plan)}
+              onShare={() => setSharingPlan(plan)}
               onRemove={() => {
                 removePlan(plan.id);
                 toast.success("Plan gelöscht");
@@ -118,6 +120,22 @@ export function PlansSection({ onApply }: Props) {
         onOpenChange={setDialogOpen}
         onCreate={addPlan}
         onUpdate={updatePlan}
+      />
+
+      <ShareDialog
+        open={sharingPlan !== null}
+        onOpenChange={(open) => !open && setSharingPlan(null)}
+        kind="plan"
+        title={sharingPlan?.name ?? ""}
+        payload={
+          sharingPlan
+            ? ({
+                name: sharingPlan.name,
+                description: sharingPlan.description,
+                exercises: sharingPlan.exercises,
+              } satisfies SharedPlanPayload)
+            : null
+        }
       />
     </div>
   );
