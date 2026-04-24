@@ -1,20 +1,31 @@
-import { Dumbbell } from "lucide-react";
+import { Dumbbell, LogIn, LogOut, User as UserIcon } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useWorkouts } from "@/hooks/useWorkouts";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 import { WorkoutForm } from "@/components/WorkoutForm";
 import { WorkoutTable } from "@/components/WorkoutTable";
 import { StatsBar } from "@/components/StatsBar";
 import { PlansSection } from "@/components/PlansSection";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 const Index = () => {
   const { entries, addEntry, addEntries, removeEntry, updateEntry } =
     useWorkouts();
+  const { user } = useAuth();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    toast.success("Abgemeldet");
+  };
 
   return (
     <div className="relative min-h-screen bg-background">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[480px] bg-gradient-glow" />
 
       <div className="relative mx-auto max-w-6xl px-4 py-10 sm:py-14">
-        <header className="mb-10 flex items-center justify-between">
+        <header className="mb-10 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-primary shadow-elegant">
               <Dumbbell className="h-5 w-5 text-primary-foreground" />
@@ -27,6 +38,33 @@ const Index = () => {
                 Dein Trainings-Logbuch
               </p>
             </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {user ? (
+              <>
+                <div className="hidden items-center gap-2 rounded-lg border border-border bg-background/40 px-3 py-1.5 text-xs sm:flex">
+                  <UserIcon className="h-3.5 w-3.5 text-muted-foreground" />
+                  <span className="max-w-[180px] truncate">{user.email}</span>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleLogout}
+                  aria-label="Abmelden"
+                >
+                  <LogOut className="h-4 w-4" />
+                  <span className="hidden sm:inline">Abmelden</span>
+                </Button>
+              </>
+            ) : (
+              <Button asChild variant="hero" size="sm">
+                <Link to="/auth">
+                  <LogIn className="h-4 w-4" />
+                  Anmelden
+                </Link>
+              </Button>
+            )}
           </div>
         </header>
 
@@ -60,7 +98,9 @@ const Index = () => {
         />
 
         <footer className="mt-12 text-center text-xs text-muted-foreground">
-          Daten werden lokal in deinem Browser gespeichert.
+          {user
+            ? "Deine Trainings werden sicher in der Cloud gespeichert."
+            : "Daten werden lokal gespeichert. Melde dich an, um sie überall zu nutzen."}
         </footer>
       </div>
     </div>
