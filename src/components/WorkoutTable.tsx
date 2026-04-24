@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
-import { Search, Trash2, Dumbbell, Pencil } from "lucide-react";
+import { Search, Trash2, Dumbbell, Pencil, Share2 } from "lucide-react";
 import { EditWorkoutDialog } from "@/components/EditWorkoutDialog";
+import { ShareDialog } from "@/components/ShareDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -19,7 +20,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useAuth } from "@/hooks/useAuth";
 import { CATEGORIES, type WorkoutEntry } from "@/types/workout";
+import type { SharedSessionPayload } from "@/types/social";
 
 interface Props {
   entries: WorkoutEntry[];
@@ -28,9 +31,29 @@ interface Props {
 }
 
 export function WorkoutTable({ entries, onRemove, onUpdate }: Props) {
+  const { user } = useAuth();
   const [query, setQuery] = useState("");
   const [filterCategory, setFilterCategory] = useState<string>("all");
   const [editing, setEditing] = useState<WorkoutEntry | null>(null);
+  const [sharingDate, setSharingDate] = useState<string | null>(null);
+
+  const sharePayload = useMemo<SharedSessionPayload | null>(() => {
+    if (!sharingDate) return null;
+    const dayEntries = entries.filter((e) => e.date === sharingDate);
+    return {
+      date: sharingDate,
+      entries: dayEntries.map((e) => ({
+        date: e.date,
+        exercise: e.exercise,
+        category: e.category,
+        sets: e.sets,
+        reps: e.reps,
+        weight: e.weight,
+        restMin: e.restMin,
+        notes: e.notes,
+      })),
+    };
+  }, [sharingDate, entries]);
 
   const filtered = useMemo(() => {
     return entries.filter((e) => {
