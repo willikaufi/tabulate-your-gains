@@ -91,7 +91,7 @@ export function useShared() {
   useEffect(() => {
     if (!user) return;
     const channel = supabase
-      .channel("shared-items-changes")
+      .channel(`shared-items-changes-${user.id}-${Math.random().toString(36).slice(2)}`)
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "shared_items" },

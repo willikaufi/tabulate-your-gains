@@ -89,7 +89,7 @@ export function useFriends() {
   useEffect(() => {
     if (!user) return;
     const channel = supabase
-      .channel("friendships-changes")
+      .channel(`friendships-changes-${user.id}-${Math.random().toString(36).slice(2)}`)
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "friendships" },
